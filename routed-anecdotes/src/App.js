@@ -7,7 +7,7 @@ import Notification from './Components/Notification'
 
 import {
   Switch, Route, useRouteMatch, useHistory
-} from "react-router-dom"
+} from 'react-router-dom'
 
 const About = () => (
   <div>
@@ -61,12 +61,13 @@ const App = () => {
     setTimeout(() => {
       setNotification(null)
     }, 10000)
+
   }
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
 
-  const vote = (id) => {
+  const vote = (id) => { //ignore-eslint
     const anecdote = anecdoteById(id)
 
     const voted = {
@@ -107,4 +108,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
