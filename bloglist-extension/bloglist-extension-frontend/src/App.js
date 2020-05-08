@@ -12,8 +12,8 @@ import {initializeBlogs, adding, liking} from './reducers/blogReducer'
 const App = () => {
 
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('leila')
-  const [password, setPassword] = useState('moi')
+  const [username, setUsername] = useState('new')
+  const [password, setPassword] = useState('new')
   const [notification, setNotification] = useState(null)
   const blogFormRef = React.createRef()
 
@@ -58,10 +58,9 @@ const App = () => {
   const createBlog = async (blog) => {
     console.log('blog', blog)
     try {
-      const newBlog = await blogService.create(blog)
       blogFormRef.current.toggleVisibility()
-      dispatch(adding(newBlog))
-      notifyWith(`a new blog '${newBlog.title}' by ${newBlog.author} added!`)
+      dispatch(adding(blog))
+      notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
     } catch(exception) {
       console.log(exception)
     }
