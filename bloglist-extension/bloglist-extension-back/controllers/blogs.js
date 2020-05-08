@@ -64,19 +64,18 @@ blogsRouter.delete('/:id', async (request, response) => {
 })
 
 blogsRouter.put('/:id', async (request, response) => {
-  const id = request.params.id
   const body = request.body
 
   console.log(body)
-  // const newBlog = {  // <- Tämä ei anna virheilmoituksia
-  //   title: body.title,
-  //   author: body.author,
-  //   url: body.url,
-  //   likes: body.likes,
-  // }
+  const newBlog1 = {  // <- Tämä ei anna virheilmoituksia
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+  }
   const newBlog = { ...body }  // <- tämä ei toimi (error: 500), koska sisältää olio sisältää myös user: {"..."} -olion
   console.log(newBlog)
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newBlog, { new: true })
+  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, newBlog1, { new: true })
   console.log(updatedBlog)
   response.json(updatedBlog.toJSON())
 })
