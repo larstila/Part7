@@ -21,7 +21,9 @@ const create = (blog) => {
 
 const update = (blog, id) => {
   const request = axios.put(`${baseUrl}/${id}`, blog, getConfig())
-  return request.then(response => response.data)
+  return request.then(response => response.data).catch(error => {
+    console.log(error.response)
+})
 }
 
 const remove = (id) => {
