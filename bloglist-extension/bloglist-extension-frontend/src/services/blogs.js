@@ -19,10 +19,9 @@ const create = (blog) => {
   return request.then(response => response.data)
 }
 
-const update = async (newObject, id) => {
-  const response = await axios.put(`${baseUrl}/${id}`, newObject, getConfig())
-  console.log('response.data', response.data)
-  return response.data
+const update = (blog, id) => {
+  const request = axios.put(`${baseUrl}/${id}`, blog, getConfig())
+  return request.then(response => response.data)
 }
 
 const remove = (id) => {

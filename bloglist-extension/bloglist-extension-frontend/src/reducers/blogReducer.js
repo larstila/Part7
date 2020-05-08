@@ -17,7 +17,7 @@ const blogReducer = (state = [], action) => {
 }
 
 export const liking = (blog) => {
-  const liked = { ...blog, votes: blog.votes + 1 }
+  const liked = { ...blog, likes: blog.likes + 1 }
   return async dispatch => {
     const likedBlog = await blogService.update(liked, liked.id)
     console.log(likedBlog)
