@@ -14,14 +14,15 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
-const create =  async (blog) => {
-  const response = await axios.post(baseUrl, blog, getConfig())
-  return response.data
+const create = (blog) => {
+  const request = axios.post(baseUrl, blog, getConfig())
+  return request.then(response => response.data)
 }
 
-const update = (blog) => {
-  const request = axios.put(`${baseUrl}/${blog.id}`, blog, getConfig())
-  return request.then(response => response.data)
+const update = async (newObject, id) => {
+  const response = await axios.put(`${baseUrl}/${id}`, newObject, getConfig())
+  console.log('response.data', response.data)
+  return response.data
 }
 
 const remove = (id) => {
