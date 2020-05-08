@@ -31,12 +31,6 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response) => {
   const body = request.body
-  const newBlog1 = {  // <- Tämä ei anna virheilmoituksia
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes,
-  }
   console.log('request', request.params, request.body)
   const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, { ...body }, { new: true })
   response.json(updatedBlog.toJSON())
