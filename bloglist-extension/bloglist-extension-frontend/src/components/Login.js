@@ -1,59 +1,34 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import './components.css'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import {getUser, login, logout} from './../reducers/userReducer'
+import { setNotification } from './../reducers/notificationReducer'
 
-const Login = ({ setUser,  notification }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
 
+const Login = ( ) => {
+  const [username, setUsername] = useState('new')
+  const [password, setPassword] = useState('new')
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({ username, password })
-      blogService.setToken(user.token)
-      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      dispatch(login(username, password))
       setUsername('')
       setPassword('')
-
-      notification('Login was succesfull', false)
-      setUser(user)
-    } catch (expection) {
-      notification('wrong username or password', true)
+      dispatch(setNotification(`${user.name} welcome back!`, 'success', 5))
+      
+    } catch(exception) {
+     dispatch(setNotification('wrong username/password', 'error', 5))
     }
   }
-  return (
-    <div>
-      <h2>login to application</h2>
-
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            id='username'
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-            id='password'
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button id='login'>login</button>
-      </form>
-    </div>
-  )
 
   return (
     <div>
       <form name="column" onSubmit={handleLogin}>
-        <div>
+        <div className="username">
           Username:{' '}
           <input
             className="flex"
@@ -64,7 +39,7 @@ const Login = ({ setUser,  notification }) => {
             onChange={({ target }) => setUsername(target.value)}
           />
         </div>
-        <div>
+        <div className="password">
           Password:{' '}
           <input
             className="flex"
@@ -79,11 +54,6 @@ const Login = ({ setUser,  notification }) => {
       </form>
     </div>
   )
-}
-
-Login.propTypes = {
-  setUser: PropTypes.func.isRequired,
-  notification: PropTypes.func.isRequired,
 }
 
 export default Login
