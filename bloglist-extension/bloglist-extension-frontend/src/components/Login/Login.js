@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import './../components.css'
-
 import { useSelector, useDispatch } from 'react-redux'
 import { login } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
@@ -11,19 +10,19 @@ const Login = () => {
   const [password, setPassword] = useState('new')
 
   const dispatch = useDispatch()
-  const handleLogin = async (event) => {
+  const user = useSelector(state => state.user)
+
+  const handleLogin =  (event) => {
     event.preventDefault()
     try {
       dispatch(login(username, password))
       setUsername('')
       setPassword('')
-      dispatch(setNotification(`{user.name} welcome back!`, 'success', 5))
     } catch (exception) {
       console.log(exception)
       dispatch(setNotification('wrong username/password', 'error', 5))
     }
   }
-
   return (
     <div>
       <form name="column" onSubmit={handleLogin}>

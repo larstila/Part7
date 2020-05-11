@@ -1,5 +1,6 @@
 import loginService from './../services/login'
 import storage from './../utils/storage'
+import {setNotification} from './notificationReducer'
 
 const userReducer = (state = [], action) => {
 
@@ -24,6 +25,7 @@ export const login = (username, password) => {
             type: 'LOGIN',
             data: user
         })
+        dispatch(setNotification(`${user.username} welcome back!`, 'success', 5))
     }
 }
 

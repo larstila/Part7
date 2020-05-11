@@ -5,15 +5,13 @@ import { addBlog, likeBlog, deleteBlog } from './../reducers/blogReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import Togglable from './Togglable'
-console.log('tosi värikästä1')
+
 
 const BlogList = () => {
     const dispatch = useDispatch()
-    console.log('tosi värikästä')
     const blogs = useSelector(state => state.blogs)
     const user = useSelector(state => state.user)
     const blogFormRef = React.createRef()
-    
 
     const createBlog = async (blog) => {
         try {
