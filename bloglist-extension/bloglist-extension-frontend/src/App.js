@@ -29,13 +29,14 @@ const App = () => {
       {user ?
         <><Menu />
           <Notification />
+          <Header />
           <Switch>
             <Route path='/users'>
               <Users />
             </Route>
           </Switch>
-          <Route path='/blogs'>
-              <Header />
+          <Route path='/blogs '>
+              
               <BlogList user={user} />
             </Route></>
         : <LoginPage />
