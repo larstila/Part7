@@ -1,6 +1,6 @@
 import React from 'react'
 import Login from './Login'
-import Notification from './Notification'
+import Notification from '../Notification'
 
 const LoginPage = () => {
     return (

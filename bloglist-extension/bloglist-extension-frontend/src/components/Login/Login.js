@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import './components.css'
-import { login, logout } from './../reducers/userReducer'
-import { setNotification } from './../reducers/notificationReducer'
+import './../components.css'
+import { login, logout } from '../../reducers/userReducer'
+import { setNotification } from '../../reducers/notificationReducer'
 
 
 const Login = (props) => {

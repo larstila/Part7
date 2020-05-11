@@ -38,9 +38,7 @@ router.put('/:id', async (request, response, next) => {
       url: body.url,
       likes: body.likes
     }
-    const update = await Blog.findByIdAndUpdate(request.params.id, blog, {
-      new: true
-    })
+    const update = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }) //.populate('user', { username: 1, name: 1 })
     response.json(update.toJSON())
   } catch (exception) {
     next(exception)
