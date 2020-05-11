@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 
 const Notification = ( props ) => {
   const notification = props.notification

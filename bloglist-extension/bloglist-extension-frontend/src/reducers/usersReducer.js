@@ -1,5 +1,4 @@
 import userServices from './../services/users'
-import storage from '../utils/storage'
 
 const userReducer = (state = [], action) => {
 

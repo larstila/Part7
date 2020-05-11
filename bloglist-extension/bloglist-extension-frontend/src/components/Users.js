@@ -9,7 +9,7 @@ const Users = (props) => {
 
     useEffect(() => {
         props.getUsers()
-    }, [])
+    }, [props])
 
     const users = props.users
     console.log('users in component: ', users)
@@ -35,7 +35,6 @@ const Users = (props) => {
 
         </div>
     )
-    return (<></>)
 }
 
 const mapStateToProps = (state) => {
