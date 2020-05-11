@@ -30,13 +30,10 @@ const useResource = (baseUrl) => {
       .then(response => {
         setResources(resources.concat(response.data))
       })
-
-
   }
 
   const service = {
     create,
-    
   }
 
   return [

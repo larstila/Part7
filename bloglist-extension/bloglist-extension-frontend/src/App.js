@@ -1,91 +1,40 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
-import Create from './components/Create'
+import BlogList from './components/BlogList'
 import Notification from './components/Notification'
-import blogService from './services/blogs'
-import loginService from './services/login'
-import Togglable from './components/Togglable'
-import storage from './utils/storage'
 import { useSelector, useDispatch } from 'react-redux'
-import {initializeBlogs, adding, liking} from './reducers/blogReducer'
+import { setNotification } from './reducers/notificationReducer'
+import {getUser, login, logout} from './reducers/userReducer'
 
 const App = () => {
 
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('new')
   const [password, setPassword] = useState('new')
-  const [notification, setNotification] = useState(null)
-  const blogFormRef = React.createRef()
-
-  const blogs = useSelector(state => state.blogs)
   
-    const dispatch = useDispatch()
-    useEffect(() => {
-      dispatch(initializeBlogs())
-    }, [dispatch])
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const user = storage.loadUser()
-    setUser(user)
-  }, [])
+    dispatch(getUser)
+  }, [dispatch])
 
-  const notifyWith = (message, type='success') => {
-    setNotification({
-      message, type
-    })
-    setTimeout(() => {
-      setNotification(null)
-    }, 5000)
-  }
+  const user = useSelector(state => state.user)
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const user = await loginService.login({
-        username, password
-      })
-
+      dispatch(login(username, password))
       setUsername('')
       setPassword('')
-      setUser(user)
-      notifyWith(`${user.name} welcome back!`)
-      storage.saveUser(user)
+      dispatch(setNotification(`${user.name} welcome back!`, 'success', 5))
+      
     } catch(exception) {
-      notifyWith('wrong username/password', 'error')
+     dispatch(setNotification('wrong username/password', 'error', 5))
     }
   }
 
-  const createBlog = async (blog) => {
-    console.log('blog', blog)
-    try {
-      blogFormRef.current.toggleVisibility()
-      dispatch(adding(blog))
-      notifyWith(`a new blog '${blog.title}' by ${blog.author} added!`)
-    } catch(exception) {
-      console.log(exception)
-    }
-  }
-
-  const handleLike = async (id) => {
-    const likedBlog = blogs.find(b => b.id === id)
-    dispatch(liking(likedBlog))
-    notifyWith(`Liked '${likedBlog.title}'!`)
-  }
-
-  const handleRemove = async (id) => {
-    console.log('handleremove')
-    // const blogToRemove = blogs.find(b => b.id === id)
-    // const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
-    // if (ok) {
-    //   await blogService.remove(id)
-    //   notifyWith(`a blog '${blogToRemove.title}' by ${blogToRemove.author} was removed!`)
-    //   setBlogs(blogs.filter(b => b.id !== id))
-    // }
-  }
 
   const handleLogout = () => {
-    setUser(null)
-    storage.logoutUser()
+    
+    dispatch(logout())
   }
 
   if ( !user ) {
@@ -93,7 +42,7 @@ const App = () => {
       <div>
         <h2>login to application</h2>
 
-        <Notification notification={notification} />
+        <Notification />
 
         <form onSubmit={handleLogin}>
           <div>
@@ -118,31 +67,18 @@ const App = () => {
     )
   }
 
-  const byLikes = (b1, b2) => b2.likes - b1.likes
 
   return (
     <div>
       <h2>blogs</h2>
 
-      <Notification notification={notification} />
+      <Notification />
 
       <p>
         {user.name} logged in <button onClick={handleLogout}>logout</button>
       </p>
 
-      <Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-        <Create createBlog={createBlog} />
-      </Togglable>
-
-      {blogs.sort(byLikes).map(blog =>
-        <Blog
-          key={blog.id}
-          blog={blog}
-          handleLike={handleLike}
-          handleRemove={handleRemove}
-          own={user.username === blog.user.username}
-        />
-      )}
+     <BlogList user={user} />
     </div>
   )
 }

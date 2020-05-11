@@ -24,7 +24,31 @@ const Login = ({ setUser,  notification }) => {
       notification('wrong username or password', true)
     }
   }
+  return (
+    <div>
+      <h2>login to application</h2>
 
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+          <input
+            id='username'
+            value={username}
+            onChange={({ target }) => setUsername(target.value)}
+          />
+        </div>
+        <div>
+          password
+          <input
+            id='password'
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+          />
+        </div>
+        <button id='login'>login</button>
+      </form>
+    </div>
+  )
 
   return (
     <div>
