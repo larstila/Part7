@@ -7,11 +7,12 @@ import { getUser } from './reducers/userReducer'
 import LoginPage from './components/Login/LoginPage'
 import Notification from './components/Notification'
 import Users from './components/Users'
+import User from './components/User/User'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
 
 import {
-  Switch, Route, useHistory,
+  Switch, Route, useHistory, useRouteMatch,
 } from 'react-router-dom'
 
 const App = () => {
@@ -24,6 +25,12 @@ const App = () => {
     dispatch(initializeUsers())
   }, [dispatch])
 
+  const users = useSelector(state => state.users)
+
+  const match = useRouteMatch('/users/:id')
+  const matchedUser = match 
+  ? users.find(user => user.id === match.params.id)
+  : null
 
   const user = useSelector(state => state.user)
 
@@ -36,6 +43,9 @@ const App = () => {
           <Notification />
           <Header />
           <Switch>
+            <Route path='/users/:id'>
+              <User user={user}/>
+            </Route>
             <Route path='/users'>
               <Users />
             </Route>
