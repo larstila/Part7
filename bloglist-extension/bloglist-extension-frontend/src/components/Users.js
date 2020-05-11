@@ -1,17 +1,11 @@
 import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { getUsers } from './../reducers/usersReducer'
+import { useSelector } from 'react-redux'
 import { Table } from 'react-bootstrap'
 
 
 const Users = (props) => {
 
-
-    useEffect(() => {
-        props.getUsers()
-    }, [props])
-
-    const users = props.users
+    const users = useSelector(state => state.users)
     console.log('users in component: ', users)
     return (
         <div>
@@ -32,24 +26,8 @@ const Users = (props) => {
                         </tr>)}
                 </tbody>
             </Table>
-
         </div>
     )
 }
 
-const mapStateToProps = (state) => {
-    return (
-        {
-            users: state.users
-        }
-    )
-}
-const mapDispatchToProps = {
-    getUsers
-}
-
-const ConnectedUsers = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Users)
-export default ConnectedUsers
+export default Users

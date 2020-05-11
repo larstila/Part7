@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import './../components.css'
-import { login, logout } from '../../reducers/userReducer'
+
+import { useSelector, useDispatch } from 'react-redux'
+import { login } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 
 
-const Login = (props) => {
+const Login = () => {
   const [username, setUsername] = useState('new')
   const [password, setPassword] = useState('new')
 
+  const dispatch = useDispatch()
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      props.login(username, password)
+      dispatch(login(username, password))
       setUsername('')
       setPassword('')
-      props.setNotification(`{user.name} welcome back!`, 'success', 5)
+      dispatch(setNotification(`{user.name} welcome back!`, 'success', 5))
     } catch (exception) {
       console.log(exception)
-      props.setNotification('wrong username/password', 'error', 5)
+      dispatch(setNotification('wrong username/password', 'error', 5))
     }
   }
 
@@ -53,26 +55,4 @@ const Login = (props) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return (
-      {
-          user: state.user,
-          notification: state.notification
-      }
-  )
-}
-
-const mapDispatchToProps = {
-  setNotification,
-  login,
-  logout,
-}
-
-const ConnectedLogin = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login)
-
-
-
-export default ConnectedLogin
+export default Login

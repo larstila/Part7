@@ -1,27 +1,25 @@
 import React, {  useEffect } from 'react'
 import Blog from './Blog'
 import Create from './Create'
-import { connect } from 'react-redux'
-import { initializeBlogs, addBlog, likeBlog, deleteBlog } from './../reducers/blogReducer'
+import { addBlog, likeBlog, deleteBlog } from './../reducers/blogReducer'
 import { setNotification } from './../reducers/notificationReducer'
+import { useSelector, useDispatch } from 'react-redux'
 import Togglable from './Togglable'
+console.log('tosi värikästä1')
 
-const BlogList = (props) => {
-
-    const blogs = props.blogs
-    const user = props.user
+const BlogList = () => {
+    const dispatch = useDispatch()
+    console.log('tosi värikästä')
+    const blogs = useSelector(state => state.blogs)
+    const user = useSelector(state => state.user)
     const blogFormRef = React.createRef()
     
-
-    useEffect(() => {
-        props.initializeBlogs()
-    }, [props])
 
     const createBlog = async (blog) => {
         try {
             blogFormRef.current.toggleVisibility()
-            props.addBlog(blog)
-            props.setNotification(`a new blog '${blog.title}' by ${blog.author} added!`, 'success', 5)
+            dispatch(addBlog(blog))
+            dispatch(setNotification(`a new blog '${blog.title}' by ${blog.author} added!`, 'success', 5))
         } catch (exception) {
             console.log(exception)
         }
@@ -29,19 +27,18 @@ const BlogList = (props) => {
 
     const handleLike = async (id) => {
         const likedBlog = blogs.find(b => b.id === id)
-        props.likeBlog(likedBlog)
-        props.setNotification(`Liked '${likedBlog.title}'!`, 'success', 5)
+        dispatch(likeBlog(likedBlog))
+        dispatch(setNotification(`Liked '${likedBlog.title}'!`, 'success', 5))
     }
 
     const handleRemove = async (id) => {
         const blogToRemove = blogs.find(b => b.id === id)
         const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
         if (ok) {
-            props.setNotification(`a blog '${blogToRemove.title}' by ${blogToRemove.author} was removed!`, 'success', 5)
-            props.deleteBlog(blogToRemove)
+            dispatch(setNotification(`a blog '${blogToRemove.title}' by ${blogToRemove.author} was removed!`, 'success', 5))
+            dispatch(deleteBlog(blogToRemove))
         }
     }
-
 
     const byLikes = (b1, b2) => b2.likes - b1.likes
 
@@ -72,17 +69,4 @@ const mapStateToProps = (state) => {
     )
 }
 
-const mapDispatchToProps = {
-    setNotification,
-    likeBlog,
-    addBlog,
-    deleteBlog,
-    initializeBlogs
-}
-
-const ConnectedBlogList = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(BlogList)
-
-export default ConnectedBlogList
+export default BlogList
