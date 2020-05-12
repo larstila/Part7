@@ -1,5 +1,5 @@
 import React from 'react'
-import Create from './Create'
+import CreateBlog from './CreateBlog'
 import { addBlog } from './../reducers/blogReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,7 +26,7 @@ const BlogList = () => {
 
     return (
         <div><Togglable buttonLabel='create new blog' ref={blogFormRef}>
-            <Create createBlog={createBlog} />
+            <CreateBlog createBlog={createBlog} />
         </Togglable>
 
         <i>Blogs listed by likes</i>       

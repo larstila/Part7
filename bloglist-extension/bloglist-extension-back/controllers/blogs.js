@@ -76,7 +76,6 @@ router.post('/:id/comments', async (request, response) => {
   }
   const id = request.params.id
   const comment = request.body.comment
-  console.log('comment', comment)
 
   const blog = await Blog.findById(id)
 
@@ -88,11 +87,10 @@ router.post('/:id/comments', async (request, response) => {
     user: blog.user,
     comments: blog.comments.concat(comment)
   }
-  console.log('1:', commentedBlog);
-  
+
   const updated = await Blog.findByIdAndUpdate(id, commentedBlog, { new:true }).populate('user', { username: 1, name: 1 })
   console.log(updated)
-  response.json(updated.toJSON)
+  response.json(updated.toJSON())
 
 
 })

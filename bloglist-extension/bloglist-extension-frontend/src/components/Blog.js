@@ -1,23 +1,24 @@
 import React from 'react'
-import { likeBlog, deleteBlog } from './../reducers/blogReducer'
+import { likeBlog, deleteBlog, addComment } from './../reducers/blogReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import { useField } from './../utils/useField'
 
 const Blog = ({ blog }) => {
+
+  const comment = useField('comment')
 
   const history = useHistory()
   const dispatch = useDispatch()
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
     borderWidth: 1,
     marginBottom: 5
   }
 
   const user = useSelector(state => state.user)
-
 
   if (!blog) {
     return (
@@ -26,9 +27,7 @@ const Blog = ({ blog }) => {
   }
 
   const own = blog.user.username === user.username
-  console.log('own', own)
-  console.log('blog', blog);
-  
+
   const handleLike = async () => {
     dispatch(likeBlog(blog))
     dispatch(setNotification(`Liked '${blog.title}'!`, 'success', 5))
@@ -42,6 +41,10 @@ const Blog = ({ blog }) => {
       history.push('/')
     }
   }
+  const handleComment = (event) => {
+    event.preventDefault()
+    dispatch(addComment(comment.value, blog.id))
+  } 
 
   return (
     <div style={blogStyle} className='blog'>
@@ -55,10 +58,17 @@ const Blog = ({ blog }) => {
         </div>
         <div>Added by <b>{blog.user.name}</b></div>
         {own && <button onClick={() => handleRemove(blog.id)}>remove</button>}
-        <br/><b>Comments</b>
-        {blog.comments.map(comment => 
-        <li key={comment}>{comment}</li>
-          )}
+        <h3>Comments</h3>
+        <form onSubmit={handleComment}>
+        <div>
+          Add comment: 
+          <input {...comment} />
+          <button id="comment-button">comment</button>
+        </div>
+      </form>
+        {blog.comments.map((comment, i) =>
+          <li key={i}>{comment}</li>
+        )}
       </div>
     </div>
   )

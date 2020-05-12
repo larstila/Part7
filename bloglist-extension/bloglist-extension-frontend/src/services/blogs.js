@@ -36,7 +36,7 @@ const remove = (id) => {
 }
 
 const createComment = (id, comment) => {
-  const request = axios.post(`/${baseUrl}/${id}/comments`, comment, getConfig())
+  const request = axios.post(`http://localhost:3001/api/blogs/${id}/comments`, { comment }, getConfig())
   return request.then(response => response.data)
 }
 
