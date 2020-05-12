@@ -3,21 +3,16 @@ import { useSelector } from 'react-redux'
 
 const Notification = ( ) => {
   const notification = useSelector(state => state.notification)
-  const style = notification ? {
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    color: notification.type === 'success' ? 'green' : 'red',
-    background: 'lightgrey'
-  } : null
-
+  
   if (!notification) {
     return (
-      <div style={style}></div>
+      <div role="alert"></div>
     )
   }
+
+  const type = notification.type === 'success' ? 'alert alert-success' : 'alert alert-warning'
   return (
-    <div style={style}>{notification.message}</div>
+    <div className={type}>{notification.message}</div>
   )
 }
 

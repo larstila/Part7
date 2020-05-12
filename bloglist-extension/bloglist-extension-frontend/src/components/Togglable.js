@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle } from 'react'
+import { Card, Button, Form } from 'react-bootstrap'
 import PropTypes from 'prop-types'
 
 const Togglable = React.forwardRef((props, ref) => {
@@ -20,9 +21,9 @@ const Togglable = React.forwardRef((props, ref) => {
   return (
     <div>
       <div style={hideWhenVisible} className="togglableContent">
-        <button id="visible-button" onClick={toggleVisibility}>
+        <Button id="visible-button" onClick={toggleVisibility}>
           {props.buttonLabel}
-        </button>
+        </Button>
       </div>
       <div style={showWhenVisible}>
         {props.children}

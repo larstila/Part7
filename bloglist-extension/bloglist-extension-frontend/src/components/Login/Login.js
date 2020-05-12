@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import './../components.css'
 import { useDispatch } from 'react-redux'
 import { login } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 import { useField } from './../../utils/useField'
+import {  Form, Button } from 'react-bootstrap'
 
 const Login = () => {
 
@@ -21,18 +21,19 @@ const Login = () => {
     }
   }
   return (
+
     <div>
-      <form name="column" onSubmit={handleLogin}>
-        <div className="username">
-          Username:{' '}
-          <input className="flex" {...username}/>
-        </div>
-        <div className="password">
-          Password:{' '}
-          <input {...password} />
-        </div>
-        <button id='login-button' type="submit">login</button>
-      </form>
+    <Form onSubmit={handleLogin}>
+      <Form.Group>
+        <Form.Label>username:</Form.Label>
+        <Form.Control {...username} />
+        <Form.Label>password:</Form.Label>
+        <Form.Control {...password} />
+        <Button id='login-button' variant="primary" type="submit">
+          login
+        </Button>
+      </Form.Group>
+    </Form>
     </div>
   )
 }

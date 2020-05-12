@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Header from './components/Header'
 import Menu from './components/Menu'
-import BlogList from './components/BlogList'
-import Blog from './components/Blog'
+import BlogList from './components/Blog/BlogList'
+import Blog from './components/Blog/Blog'
 import LoginPage from './components/Login/LoginPage'
 import Notification from './components/Notification'
-import UserList from './components/UserList'
+import UserList from './components/User/UserList'
 import User from './components/User/User'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
@@ -39,13 +38,12 @@ const App = () => {
     : null
 
   return (
-    <div>
+    <div className="container">
       <h1> Blogs </h1>
       {user ?
         <>
           <Menu />
           <Notification />
-          <Header />
           <Switch>
             <Route path='/users/:id'>
               <User user={matchedUser} />
