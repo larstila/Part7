@@ -3,21 +3,22 @@ import { useSelector, useDispatch } from 'react-redux'
 import Header from './components/Header'
 import Menu from './components/Menu'
 import BlogList from './components/BlogList'
-import { getUser } from './reducers/userReducer'
+import Blog from './components/Blog'
 import LoginPage from './components/Login/LoginPage'
 import Notification from './components/Notification'
-import Users from './components/Users'
+import UserList from './components/UserList'
 import User from './components/User/User'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
+import { getUser } from './reducers/userReducer'
 
 import {
-  Switch, Route, useHistory, useRouteMatch,
+  Switch, Route, useRouteMatch,
 } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
-  const history = useHistory()
+
 
   useEffect(() => {
     dispatch(getUser())
@@ -26,13 +27,16 @@ const App = () => {
   }, [dispatch])
 
   const users = useSelector(state => state.users)
-
-  const match = useRouteMatch('/users/:id')
-  const matchedUser = match 
-  ? users.find(user => user.id === match.params.id)
-  : null
-
   const user = useSelector(state => state.user)
+  const blogs = useSelector(state => state.blogs)
+
+  const matchUser = useRouteMatch('/users/:id')
+  const matchedUser = matchUser ? users.find(user => user.id === matchUser.params.id) : null
+
+  const matchBlog = useRouteMatch('/blogs/:id')
+  const matchedBlog = matchBlog
+    ? blogs.find(blog => blog.id === matchBlog.params.id)
+    : null
 
   return (
     <div>
@@ -44,18 +48,24 @@ const App = () => {
           <Header />
           <Switch>
             <Route path='/users/:id'>
-              <User user={user}/>
+              <User user={matchedUser} />
             </Route>
             <Route path='/users'>
-              <Users />
+              <UserList />
+            </Route>
+            <Route path='/blogs/:id'>
+              <Blog blog={matchedBlog} />
             </Route>
             <Route path='/blogs'>
               <BlogList />
             </Route>
+            <Route path='/'>
+              <BlogList />
+            </Route>
           </Switch></>
         : <LoginPage />
-        
-        }</div>
+
+      }</div>
   )
 }
 

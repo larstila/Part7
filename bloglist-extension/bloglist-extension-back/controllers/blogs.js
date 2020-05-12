@@ -6,7 +6,6 @@ const User = require('../models/user')
 router.get('/', async (request, response) => {
   const blogs = await Blog
     .find({}).populate('user', { username: 1, name: 1 })
-    console.log(blogs)
   response.json(blogs)
 })
 
@@ -31,14 +30,8 @@ router.delete('/:id', async (request, response) => {
 
 router.put('/:id', async (request, response, next) => {
   try {
-    const body = request.body
-    const blog = {
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes
-    }
-    const update = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }) //.populate('user', { username: 1, name: 1 })
+    const blog = request.body
+    const update = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1 })
     response.json(update.toJSON())
   } catch (exception) {
     next(exception)

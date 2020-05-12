@@ -11,7 +11,6 @@ const Blogs = () => {
       }
     return (
         <div>
-    
         {user.name} logged in <button onClick={handleLogout}>logout</button>
         </div>
     )

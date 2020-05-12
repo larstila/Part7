@@ -1,14 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { Table } from 'react-bootstrap'
-import {
-    Link
-  } from "react-router-dom"
+import { Link } from "react-router-dom"
 
-const Users = (props) => {
+const UserList = () => {
 
     const users = useSelector(state => state.users)
-    console.log('users in component: ', users)
     return (
         <div>
             <h2>Users</h2>
@@ -32,4 +29,4 @@ const Users = (props) => {
     )
 }
 
-export default Users
+export default UserList

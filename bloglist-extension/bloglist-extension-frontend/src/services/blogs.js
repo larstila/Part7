@@ -20,7 +20,13 @@ const create = (blog) => {
 }
 
 const update = (blog) => {
-  const request = axios.put(`${baseUrl}/${blog.id}`, blog, getConfig())
+  const blogToUpdate = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes
+  }
+  const request = axios.put(`${baseUrl}/${blog.id}`, blogToUpdate, getConfig())
   return request.then(response => response.data)
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './../components.css'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { login } from '../../reducers/userReducer'
 import { setNotification } from '../../reducers/notificationReducer'
 
@@ -10,7 +10,6 @@ const Login = () => {
   const [password, setPassword] = useState('new')
 
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user)
 
   const handleLogin =  (event) => {
     event.preventDefault()

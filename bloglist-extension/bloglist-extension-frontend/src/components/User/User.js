@@ -6,7 +6,7 @@ const User = ({ user }) => {
     const allBlogs = useSelector(state => state.blogs)
     const blogs = allBlogs.filter(b => b.user.username === user.username)
     console.log('blogs', blogs)
-    // const blogs = correctUser.blogs
+    
     if (!user) {
         return null
     }
@@ -16,7 +16,6 @@ const User = ({ user }) => {
             <div>No added blogs</div>
         )
     }
-    
     return (
         <div>
             <h3>
