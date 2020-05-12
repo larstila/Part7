@@ -31,8 +31,8 @@ router.delete('/:id', async (request, response) => {
 router.put('/:id', async (request, response, next) => {
   try {
     const blog = request.body
-    const update = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1 })
-    response.json(update.toJSON())
+    const updated = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true }).populate('user', { username: 1, name: 1 })
+    response.json(updated.toJSON())
   } catch (exception) {
     next(exception)
   }
@@ -67,6 +67,34 @@ router.post('/', async (request, response) => {
 })
 router.delete('/', async () => {
   await Blog.deleteMany()
+})
+
+router.post('/:id/comments', async (request, response) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!request.token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
+  const id = request.params.id
+  const comment = request.body.comment
+  console.log('comment', comment)
+
+  const blog = await Blog.findById(id)
+
+  const commentedBlog = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    likes: blog.likes,
+    user: blog.user,
+    comments: blog.comments.concat(comment)
+  }
+  console.log('1:', commentedBlog);
+  
+  const updated = await Blog.findByIdAndUpdate(id, commentedBlog, { new:true }).populate('user', { username: 1, name: 1 })
+  console.log(updated)
+  response.json(updated.toJSON)
+
+
 })
 
 module.exports = router

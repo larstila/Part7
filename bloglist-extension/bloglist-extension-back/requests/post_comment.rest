@@ -1,0 +1,6 @@
+POST http://localhost:3001/api/blogs/5eb556c75dd5ce2f480a466e/comments
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIxIiwiaWQiOiI1ZTk5ODYyOGNmNTJjOTFkZjRiY2IwNDUiLCJpYXQiOjE1ODcxMjUwNTJ9.ElIMNUIV-GsW0TF_iFhkS1dOU-qcSYnfm7_lIQcJy3Y
+{
+    "comment": "Hola Mundo"
+}
